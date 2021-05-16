@@ -1,5 +1,4 @@
 import React from 'react';
-import './todo-list.css';
 import Todo from './todo';
 
 export default function TodoList({ todos, onComplete, onReopen, onDelete }) {

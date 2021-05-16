@@ -1,3 +1,4 @@
+// TODO: use relay and graphql instead of fetch
 export default class FetchApi {
   static post(path, body) {
     return fetch(path, {

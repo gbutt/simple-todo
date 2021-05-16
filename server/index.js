@@ -6,6 +6,7 @@ import TodoRoutes from './todo-routes';
 
 const APP_PORT = 3001;
 
+// TODO: externalize webpack
 const compiler = webpack({
   mode: 'development',
   entry: ['whatwg-fetch', path.resolve(__dirname, '../frontend', 'app.js')],
