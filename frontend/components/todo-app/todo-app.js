@@ -5,10 +5,52 @@ import TodoList from './todo-list';
 export default class TodoApp extends React.Component {
   state = { todos: [] };
 
+  /* react lifecycle hooks */
   componentDidMount() {
     this.getTodos();
   }
 
+  render() {
+    return (
+      <div className='slds-align_absolute-center slds-m-top_large'>
+        <div className='TodoApp-body slds-box slds-size_x-large'>
+          <h1 className='slds-text-heading_large slds-m-bottom_small'>Todos</h1>
+          <div className='slds-m-bottom_small'>
+            <TodoInput onSubmit={this.handleSubmit} />
+          </div>
+
+          <TodoList
+            todos={this.state.todos}
+            onComplete={this.handleMarkComplete}
+            onReopen={this.handleMarkOpen}
+            onDelete={this.handleDeleteRequest}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  /* event handlers */
+  handleMarkComplete = async (todo) => {
+    const id = todo.id;
+    return this.updateTodo(id, { completed: true });
+  };
+
+  handleMarkOpen = async (todo) => {
+    const id = todo.id;
+    return this.updateTodo(id, { completed: false });
+  };
+
+  handleDeleteRequest = async (todo) => {
+    const id = todo.id;
+    return this.deleteTodo(id);
+  };
+
+  handleSubmit = async (text) => {
+    await this.createTodo({ text, completed: false });
+  };
+
+  /* class methods */
   async getTodos() {
     try {
       const todos = await FetchApi.get('/todo');
@@ -56,44 +98,5 @@ export default class TodoApp extends React.Component {
   handleError(message, err) {
     console.error(err);
     alert(message);
-  }
-
-  handleMarkComplete = async (todo) => {
-    const id = todo.id;
-    return this.updateTodo(id, { completed: true });
-  };
-
-  handleMarkOpen = async (todo) => {
-    const id = todo.id;
-    return this.updateTodo(id, { completed: false });
-  };
-
-  handleDeleteRequest = async (todo) => {
-    const id = todo.id;
-    return this.deleteTodo(id);
-  };
-
-  handleSubmit = async (text) => {
-    await this.createTodo({ text, completed: false });
-  };
-
-  render() {
-    return (
-      <div className='slds-align_absolute-center slds-m-top_large'>
-        <div className='TodoApp-body slds-box slds-size_x-large'>
-          <h1 className='slds-text-heading_large slds-m-bottom_small'>Todos</h1>
-          <div className='slds-m-bottom_small'>
-            <TodoInput onSubmit={this.handleSubmit} />
-          </div>
-
-          <TodoList
-            todos={this.state.todos}
-            onComplete={this.handleMarkComplete}
-            onReopen={this.handleMarkOpen}
-            onDelete={this.handleDeleteRequest}
-          />
-        </div>
-      </div>
-    );
   }
 }

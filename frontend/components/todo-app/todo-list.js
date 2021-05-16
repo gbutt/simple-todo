@@ -2,13 +2,8 @@ import React from 'react';
 import Todo from './todo';
 
 export default function TodoList({ todos, onComplete, onReopen, onDelete }) {
-  const { numTodosCompleted, numTodosOpen } = todos.reduce(
-    (agg, todo) => {
-      todo.completed ? agg.numTodosCompleted++ : agg.numTodosOpen++;
-      return agg;
-    },
-    { numTodosCompleted: 0, numTodosOpen: 0 }
-  );
+  // get counts fom completed and open todos
+  const { numTodosCompleted, numTodosOpen } = getTodoStats(todos);
 
   return (
     <div>
@@ -25,6 +20,14 @@ export default function TodoList({ todos, onComplete, onReopen, onDelete }) {
       </ul>
     </div>
   );
+}
+
+function getTodoStats(todos) {
+  const stats = { numTodosCompleted: 0, numTodosOpen: 0 };
+  return todos.reduce((agg, todo) => {
+    todo.completed ? agg.numTodosCompleted++ : agg.numTodosOpen++;
+    return agg;
+  }, stats);
 }
 
 function getClasses(todo) {

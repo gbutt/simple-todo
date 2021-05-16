@@ -7,10 +7,11 @@ export default function TodoInput({ onSubmit }) {
   const [text, setText] = useState('');
 
   const handleKeyDown = async (e) => {
-    if (e.keyCode === ENTER_KEY_CODE) {
-      onSubmit(text);
-      setText('');
+    if (e.keyCode !== ENTER_KEY_CODE) {
+      return;
     }
+    onSubmit(text);
+    setText('');
   };
 
   return (
